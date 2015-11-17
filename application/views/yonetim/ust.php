@@ -11,12 +11,14 @@ if(!defined('BASEPATH')) exit('Bu Sayfaya Direk Erişim Sağlayamazsınız');
 		<link rel="stylesheet" href="'.base_url().'css/bootstrap.min.css">
 		<link rel="stylesheet" href="'.base_url().'css/bootstrap-theme.min.css">
 		<link rel="stylesheet" href="'.base_url().'css/yonetimstil.css" type="text/css" />
+		<link rel="stylesheet" href="'.base_url().'css/jquery.Jcrop.css" type="text/css" />
 		<link rel="shortcut icon" href="'.base_url().'resimler/favicon.ico"/>
 		<script src="'.base_url().'javascript/jquery-2.1.4.min.js"></script>
 		<script src="'.base_url().'javascript/jquery-ui.min.js"></script>
 		<script src="'.base_url().'javascript/bootstrap.js"></script>
 		<script src="'.base_url().'javascript/datepicker-tr.js"></script>
 		<script src="'.base_url().'javascript/eticaret.js"></script>
+		<script src="'.base_url().'javascript/jquery.Jcrop.js"></script>
 	</head>
 	<body>
 	<div id="golge">

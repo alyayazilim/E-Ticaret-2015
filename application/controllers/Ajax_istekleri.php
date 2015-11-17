@@ -104,11 +104,11 @@ class Ajax_istekleri extends CI_Controller {
 	function urun_ekle() {
 		$ustKategori = $this->input->post('kategori_no',true);
 		$ozellikler = array(
-			'class'		=> 'kategoriEkleForm',
-			'id'			=> 'kategoriEkleForm'/*,
+			'class'		=> 'urunEkleForm',
+			'id'			=> 'urunEkleForm'/*,
 			'onsubmit'	=>	'deneme(this);'*/
 		);
-		$html = form_open_multipart('kategoriler/kategori_ekle', $ozellikler);
+		$html = form_open_multipart('urunler/urun_ekle', $ozellikler);
 			$html .= '<div class="col-md-4">';
 				$html .= form_label('Ürün Adı', 'urun_adi" class="label');
 				$html .= form_input('urun_adi" id="urun_adi', '', 'onkeyup="seoOlustur(this.value); hCD(\'urun_adi\'); urunMukerrerKontrol(this.value);" autocomplete="off"');
@@ -180,11 +180,11 @@ class Ajax_istekleri extends CI_Controller {
 		foreach($sorgu AS $urun) :
 			$ustKategori = $this->input->post('kategori_no',true);
 			$ozellikler = array(
-				'class'		=> 'kategoriEkleForm',
-				'id'			=> 'kategoriEkleForm'/*,
+				'class'		=> 'urunEkleForm',
+				'id'			=> 'urunEkleForm'/*,
 				'onsubmit'	=>	'deneme(this);'*/
 			);
-			$html = form_open_multipart('kategoriler/kategori_ekle', $ozellikler);
+			$html = form_open_multipart('urunler/urun_ekle', $ozellikler);
 				$html .= '<div class="col-md-4">';
 					$html .= form_label('Ürün Adı', 'urun_adi" class="label');
 					$html .= form_input('urun_adi" id="urun_adi', $urun->urun_adi, 'onkeyup="seoOlustur(this.value); hCD(\'urun_adi\'); urunMukerrerKontrol(this.value, '.$urun->no.');" autocomplete="off"');

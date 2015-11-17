@@ -255,8 +255,8 @@ function dosyaBoyutu(nesneId) {
 		var dosyaBoyut		= document.getElementById(nesneId).files[0].size;
 	}
 	var boyut				= Math.floor(Math.round(dosyaBoyut*100)/100000);
-	if(boyut >= 2048) {
-		alert("Dosya Boyutu EN FAZLA 2 MB OLMALIDIR!!!")+boyut;
+	if(boyut >= 3072) {
+		alert("Dosya Boyutu EN FAZLA 3 MB OLMALIDIR!!!")+boyut;
 		document.getElementById(nesneId).value="";
 
 	}
