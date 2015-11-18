@@ -8,6 +8,27 @@ class Sistem_model extends CI_Model {
 		$this->mySunucu = $this->load->database('mySunucu', TRUE);
 	}
 
+	function tarih2unix($tarih=NULL) {
+		return strtotime($tarih);
+	}
+
+	function unix2tarih($uTarih=NULL) {
+		return date('d.m.Y', $uTarih);
+	}
+
+	function dosyaAdiOlustur($ozNetlik=FALSE, $dosyaAdi=FALSE) {
+		if($ozNetlik == TRUE) {
+			$dosya1 = md5(time()).md5(time()+1);
+			$yeniDosyaAdi = $dosya1;
+		} else {
+			$dosya1 = md5(time()).md5(time()+1);
+			$dizi = explode(".", $dosyaAdi);
+			$sayi = count($dizi);
+			$yeniDosyaAdi = $dosya1.".".$dizi[$sayi-1];
+		}
+		return urlencode($yeniDosyaAdi);
+	}
+
 	function sistemKontrol() {
 		ob_start();
 		system('ipconfig /all');
