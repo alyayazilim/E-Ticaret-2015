@@ -103,11 +103,15 @@ class Urunler extends CI_Controller {
 		$dosya_adi = $dosya1.".".$dizi[$sayi-1];
 		$yeni_dosya_adi = urlencode($dosya_adi);
 		$ayar = array(
-				'upload_path'		=> './resimler/urun',
+				'upload_path'		=> './resimler/temp',
 				'allowed_types'	=> 'jpg|png|jpeg|JPG|JPEG',
 				'max_size'			=> '3072',
 				'max_width'			=> '3500',
 				'max_height'		=> '3500',
+				'create_thumb'		=> TRUE,
+				'maintain_ratio' 	=> TRUE,
+				'width'				=> '400',
+				'height'				=> '400',
 				'file_name'			=> $yeni_dosya_adi
 		);
 		if(!is_dir($ayar['upload_path'])) {
@@ -117,6 +121,10 @@ class Urunler extends CI_Controller {
 		if(!$this->upload->do_upload('resim')) {
 			echo $this->upload->display_errors();
 		} else {
+			/*
+			Burada Ürün Kayıt işlemlerini Yapacağız.
+			Oturuma son kayıt id resim_kayit_no olarak atıp ileride kullanacağız.
+			*/
 			$this->load->view('yonetim/crop-resim', $ayar);
 		}
 	}
@@ -127,29 +135,28 @@ class Urunler extends CI_Controller {
 			$Y = $this->input->post('y',true);
 			$W = $this->input->post('w',true);
 			$H = $this->input->post('h',true);
-			$kaynak = $_SERVER['DOCUMENT_ROOT'].'/resimler/urun/'.$this->input->post('source_image', true);
-			$hedef = $_SERVER['DOCUMENT_ROOT'].'/resimler/urun/onizleme/';
-			if(!is_dir($_SERVER['DOCUMENT_ROOT'].'/resimler/urun/onizleme')) {
-				mkdir($_SERVER['DOCUMENT_ROOT'].'/resimler/urun/onizleme', 0755, TRUE);
-			}
+			$kaynak = $_SERVER['DOCUMENT_ROOT'].'/resimler/temp/'.$this->input->post('source_image', true);
+			$hedef = $_SERVER['DOCUMENT_ROOT'].'/resimler/urun/';
 			$ayar = array(
 				'image_library'	=> 'gd2',
 				'source_image'		=> $kaynak,
 				'new_image'			=> $hedef,
 				'quality'			=> '100%',
+				'create_thumb'		=> true,
 				'maintain_ratio'	=> false,
 				'width'				=> $W,
 				'height'				=> $H,
 				'x_axis'				=> $X,
-				'y_axis'				=> $Y,
-				'create_thumb'		=> true
+				'y_axis'				=> $Y
 			);
 			$this->load->library('image_lib', $ayar);
 			$this->image_lib->clear();
-			$this->image_lib->initialize($ayar); 
+			$this->image_lib->initialize($ayar);
 			if(!$this->image_lib->crop()) {
 				echo $this->image_lib->display_errors();
 			} else {
+				unlink($kaynak);
+				rmdir(base_url('resimler/temp'));
 				echo 'Cropped Perfectly';
 			}
 		}

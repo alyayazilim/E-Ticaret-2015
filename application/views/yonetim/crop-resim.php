@@ -9,7 +9,7 @@
 </head>
 <body>
 <?php echo form_open("urunler/crop", "onsubmit='return checkCoords();'"); ?>
-	<img style='margin:0 auto;' src='<?php echo base_url().'resimler/urun/'.$file_name; ?>' id='cropbox'>
+	<img style='margin:0 auto;' src='<?php echo base_url().'resimler/temp/'.$file_name; ?>' id='cropbox'>
 <!-- This is the form that our event handler fills -->
 	<input type='hidden' id='x' name='x' />
 	<input type='hidden' id='y' name='y' />
