@@ -1,6 +1,5 @@
 <?php header("Content-type:text/html; charset=utf-8");
 
-	/*
 	$veri = array("firma_adi" =>"Güner ARIK",
 		"mail" => "guner@gunerarik.com.tr",
 		"skype" => "arnet-yazilim",
@@ -10,7 +9,6 @@
 		'tel2'	=> '05458626271'
 	);
 	echo serialize($veri);
-	*/
 	
 	/*
 	$sunucu	= "localhost";
