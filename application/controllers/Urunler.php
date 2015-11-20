@@ -97,91 +97,57 @@ class Urunler extends CI_Controller {
 	}
 
 	function urun_ekle() {
-		$resimAyar = array(
-			'upload_path'		=> './resimler/urun/',
-			'allowed_types'	=> 'gif|jpg|png',
-			'max_size'			=> 0,
-			'max_width'			=> 0,
-			'max_height'		=> 0
-		);
-		$this->load->library('upload', $resimAyar);
-		if(!is_dir($resimAyar['upload_path'])) {
-			mkdir($resimAyar['upload_path'], 0755, TRUE);
-		}
-		if(!$this->upload->do_upload('resim')) {
-			$error = array('error' => $this->upload->display_errors());
-			print_r($error);
-		} else {
-			$upload_data = $this->upload->data();
-			$data['upload_data'] = $upload_data;
-			$source_img = $upload_data['full_path'];
-			$new_img = $upload_data['file_path'].$upload_data['raw_name'].'_thumb'.$upload_data['file_ext'];
-			$data['source_image'] = $new_img;
-			$this->create_thumb_gallery($upload_data, $source_img, $new_img, 250, 200);
-			$this->load->view('yonetim/crop-resim', $data);
-		}
-	}
-
-	function create_thumb_gallery($upload_data, $source_img, $new_img, $width, $height) {
+		$dosya1 = md5(time()).md5(time()+1);
+		$dizi = explode(".", $_FILES['resim']['name']);
+		$sayi = count($dizi);
+		$dosya_adi = $dosya1.".".$dizi[$sayi-1];
+		$yeni_dosya_adi = urlencode($dosya_adi);
 		$ayar = array(
-			'image_library'	=> 'gd2',
-			'source_image'		=> $source_img,
-			'create_thumb'		=> FALSE,
-			'new_image'			=> $new_img,
-			'quality'			=> '100%'
+				'upload_path'		=> './resimler/urun',
+				'allowed_types'	=> 'jpg|png|jpeg|JPG|JPEG',
+				'max_size'			=> '3072',
+				'max_width'			=> '3500',
+				'max_height'		=> '3500',
+				'file_name'			=> $yeni_dosya_adi
 		);
-		$this->load->library('image_lib');
-		$this->image_lib->initialize($ayar);
-		if(!$this->image_lib->resize()) {
-			echo $this->image_lib->display_errors();
+		if(!is_dir($ayar['upload_path'])) {
+			mkdir($ayar['upload_path'], 0755, TRUE);
+		}
+		$this->load->library('upload', $ayar);
+		if(!$this->upload->do_upload('resim')) {
+			echo $this->upload->display_errors();
 		} else {
-			$ayar = array(
-				'image_library'	=> 'gd2',
-				'source_image'		=> $source_img,
-				'create_thumb'		=> FALSE,
-				'maintain_ratio'	=> TRUE,
-				'quality'			=> '100%',
-				'new_image'			=> $source_img,
-				'overwrite'			=> TRUE,
-				'width'				=> $width,
-				'height'				=> $height
-			);
-			$dim = (intval($upload_data['image_width']) / intval($upload_data['image_height'])) - ($ayar['width'] / $ayar['height']);
-			$ayar['master_dim'] = ($dim > 0)? 'height' : 'width';
-			$this->image_lib->clear();
-			$this->image_lib->initialize($ayar);
-			if(!$this->image_lib->resize()) {
-				echo $this->image_lib->display_errors();
-			} else {
-			//echo 'Thumnail Created';
-			return true;
-			}
+			$this->load->view('yonetim/crop-resim', $ayar);
 		}
 	}
 
 	function crop() {
-		if($this->input->post('x',TRUE)) {
-			$X = $this->input->post('x');
-			$Y = $this->input->post('y');
-			$W = $this->input->post('w');
-			$H = $this->input->post('h');
-			$source = $this->input->post('source_image',true);
-			echo $source;
-
-			$config['image_library'] = 'gd2';
-			$config['source_image'] = $source_img;
-			$config['new_image'] = $source_img;
-			$config['quality'] = '100%';
-			$config['maintain_ratio'] = FALSE;
-			$config['width'] = $width;
-			$config['height'] = $height;
-			$config['x_axis'] = $x_axis;
-			$config['y_axis'] = $y_axis;
-
+		if($this->input->post('x',true)) {
+			$X = $this->input->post('x',true);
+			$Y = $this->input->post('y',true);
+			$W = $this->input->post('w',true);
+			$H = $this->input->post('h',true);
+			$kaynak = $_SERVER['DOCUMENT_ROOT'].'/resimler/urun/'.$this->input->post('source_image', true);
+			$hedef = $_SERVER['DOCUMENT_ROOT'].'/resimler/urun/onizleme/';
+			if(!is_dir($_SERVER['DOCUMENT_ROOT'].'/resimler/urun/onizleme')) {
+				mkdir($_SERVER['DOCUMENT_ROOT'].'/resimler/urun/onizleme', 0755, TRUE);
+			}
+			$ayar = array(
+				'image_library'	=> 'gd2',
+				'source_image'		=> $kaynak,
+				'new_image'			=> $hedef,
+				'quality'			=> '100%',
+				'maintain_ratio'	=> false,
+				'width'				=> $W,
+				'height'				=> $H,
+				'x_axis'				=> $X,
+				'y_axis'				=> $Y,
+				'create_thumb'		=> true
+			);
+			$this->load->library('image_lib', $ayar);
 			$this->image_lib->clear();
-			$this->image_lib->initialize($config); 
-
-			if (!$this->image_lib->crop()) {
+			$this->image_lib->initialize($ayar); 
+			if(!$this->image_lib->crop()) {
 				echo $this->image_lib->display_errors();
 			} else {
 				echo 'Cropped Perfectly';
