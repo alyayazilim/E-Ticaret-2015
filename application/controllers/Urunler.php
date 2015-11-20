@@ -106,9 +106,9 @@ class Urunler extends CI_Controller {
 		$ayar = array(
 				'upload_path'		=> './resimler/temp',
 				'allowed_types'	=> 'jpg|png|jpeg|JPG|JPEG',
-				'max_size'			=> '3072',
-				'max_width'			=> '3500',
-				'max_height'		=> '3500',
+				'max_size'			=> '2048',
+				'max_width'			=> '800',
+				'max_height'		=> '800',
 				'create_thumb'		=> TRUE,
 				'maintain_ratio' 	=> TRUE,
 				'width'				=> '400',
@@ -122,6 +122,7 @@ class Urunler extends CI_Controller {
 		$this->load->library('upload', $ayar);
 		if(!$this->upload->do_upload('resim')) {
 			echo $this->upload->display_errors();
+			echo '<button onclick="window.history.back();">Geri Dön</button>';
 		} else {
 			/*
 			Burada Ürün Kayıt işlemlerini Yapacağız.
@@ -157,6 +158,7 @@ class Urunler extends CI_Controller {
 			$this->image_lib->initialize($ayar);
 			if(!$this->image_lib->crop()) {
 				echo $this->image_lib->display_errors();
+				echo '<button onclick="window.history.back();">Geri Dön</button>';
 			} else {
 				unlink($kaynak);
 				rmdir(base_url().'resimler/temp');

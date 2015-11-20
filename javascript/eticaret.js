@@ -57,6 +57,10 @@ function linkSec(nesne) {
 	}
 }
 
+function geriDon() {
+	window.history.back();
+}
+
 function yonetimKategoriGoster(kategoriNo, divAdi) {
 	document.getElementById('yonetimUrunler').innerHTML="";
 	var istek =  nesneOlustur();

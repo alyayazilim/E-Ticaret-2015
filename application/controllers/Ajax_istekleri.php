@@ -236,6 +236,7 @@ class Ajax_istekleri extends CI_Controller {
 					}
 					$html .= '</div>';
 					$html .= '<input type="file" id="urunResim" name="resim" onchange="return dosyaBoyutu(\'urunResim\');" accept="image/*" />';
+					$html .= 'Dosya Boyutu 2Mb,<br />Uzunluk ve Genişlikte 800 pixelden büyük olmamalıdır!!!';
 				$html .= '</div>';
 				$html .= '<div style="clear: both;"></div>';
 				$html .= '<div class="col-md-12">';
