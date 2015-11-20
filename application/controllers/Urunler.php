@@ -102,6 +102,7 @@ class Urunler extends CI_Controller {
 		$sayi = count($dizi);
 		$dosya_adi = $dosya1.".".$dizi[$sayi-1];
 		$yeni_dosya_adi = urlencode($dosya_adi);
+		$this->load->library('user_agent');
 		$ayar = array(
 				'upload_path'		=> './resimler/temp',
 				'allowed_types'	=> 'jpg|png|jpeg|JPG|JPEG',
@@ -112,7 +113,8 @@ class Urunler extends CI_Controller {
 				'maintain_ratio' 	=> TRUE,
 				'width'				=> '400',
 				'height'				=> '400',
-				'file_name'			=> $yeni_dosya_adi
+				'file_name'			=> $yeni_dosya_adi,
+				'referans_sayfa'	=> $this->agent->referrer()
 		);
 		if(!is_dir($ayar['upload_path'])) {
 			mkdir($ayar['upload_path'], 0755, TRUE);
@@ -125,6 +127,7 @@ class Urunler extends CI_Controller {
 			Burada Ürün Kayıt işlemlerini Yapacağız.
 			Oturuma son kayıt id resim_kayit_no olarak atıp ileride kullanacağız.
 			*/
+			//$html .= form_hidden('referans_sayfa', $this->agent->referrer());
 			$this->load->view('yonetim/crop-resim', $ayar);
 		}
 	}
@@ -156,8 +159,8 @@ class Urunler extends CI_Controller {
 				echo $this->image_lib->display_errors();
 			} else {
 				unlink($kaynak);
-				rmdir(base_url('resimler/temp'));
-				echo 'Cropped Perfectly';
+				rmdir(base_url().'resimler/temp');
+				redirect($this->input->post('referans_sayfa'));
 			}
 		}
 	}

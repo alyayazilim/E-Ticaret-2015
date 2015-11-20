@@ -16,6 +16,7 @@
 	<input type='hidden' id='w' name='w' />
 	<input type='hidden' id='h' name='h' />
 	<input type='hidden' id='source_image' name='source_image' value='<?php echo $file_name; ?>' />
+	<input type='hidden' id='referans_sayfa' name='referans_sayfa' value='<?php echo $referans_sayfa; ?>' />
 	<button class='btn btn-block' type='submit'>Crop Image</button>
 <?php echo form_close(); ?>
 <script type='text/javascript'>
