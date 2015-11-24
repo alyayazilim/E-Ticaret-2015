@@ -124,6 +124,38 @@ class Urunler extends CI_Controller {
 			echo $this->upload->display_errors();
 			echo '<button onclick="window.history.back();">Geri Dön</button>';
 		} else {
+			$this->load->model('sistem_model');
+			$urunBilgi = array(
+				'kategori' 		=> $this->input->post('kategori_no',true),
+				'urun_adi' 		=> $this->input->post('urun_adi',true),
+				'marka' 			=> $this->input->post('markaAdi',true),
+				'aktif' 			=> $this->input->post('aktif',true),
+				'vergi' 			=> $this->input->post('kdv',true),
+				'kampanya' 		=> $this->input->post('indirimli',true),
+				'yeni' 			=> $this->input->post('yeni',true),
+				'urun_temiz'	=> $this->sistem_model->caseDegistir('kucuk', $this->input->post('urun_adi',true))
+			);
+			
+			$fiyatBilgi = array(
+				'urun_no'			=> $urunNo,
+				'fiyat'				=> $this->input->post('fiyat',true),
+				'indirimli_fiyat'	=> $this->input->post('indFiyat',true)
+			);
+
+			$seoBilgi = array(
+				'tur'				=> 'R',
+				'obje'			=> $urunNo,
+				'sef'				=> $this->input->post('sefLink',true),
+				'title'			=> $this->input->post('title',true),
+				'description'	=> $this->input->post('description',true),
+				'keywords'		=> $this->input->post('keys',true)
+			);
+
+			$resimBilgi = array(
+				'item_no'		=> $urunNo,
+				'nesne_turu'	=> 'R',
+				'resim'			=> $yeni_dosya_adi
+			);
 			/*
 			Burada Ürün Kayıt işlemlerini Yapacağız.
 			Oturuma son kayıt id resim_kayit_no olarak atıp ileride kullanacağız.
