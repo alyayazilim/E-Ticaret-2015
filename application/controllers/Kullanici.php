@@ -15,7 +15,7 @@ class Kullanici extends CI_Controller {
 	}
 
 	function giris() {
-		$this->load->view('yonetim_giris', $this->sistemSabit);
+		$this->load->view('yonetim/giris', $this->sistemSabit);
 	}
 
 	function giris_islem() {
