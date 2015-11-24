@@ -96,6 +96,71 @@ class Urunler extends CI_Controller {
 		$this->load->view('ziyaretci_taslak', $bilgi);
 	}
 
+	function urun_duzenle() {
+		$dosya1 = md5(time()).md5(time()+1);
+		$dizi = explode(".", $_FILES['resim']['name']);
+		$sayi = count($dizi);
+		$dosya_adi = $dosya1.".".$dizi[$sayi-1];
+		$yeni_dosya_adi = urlencode($dosya_adi);
+		$this->load->library('user_agent');
+		$ayar = array(
+				'upload_path'		=> './resimler/temp',
+				'allowed_types'	=> 'jpg|png|jpeg|JPG|JPEG',
+				'max_size'			=> '2048',
+				'max_width'			=> '800',
+				'max_height'		=> '800',
+				'create_thumb'		=> TRUE,
+				'maintain_ratio' 	=> TRUE,
+				'width'				=> '400',
+				'height'				=> '400',
+				'file_name'			=> $yeni_dosya_adi,
+				'referans_sayfa'	=> $this->agent->referrer()
+		);
+		if(!is_dir($ayar['upload_path'])) {
+			mkdir($ayar['upload_path'], 0755, TRUE);
+		}
+		$this->load->library('upload', $ayar);
+		if(!$this->upload->do_upload('resim')) {
+			echo $this->upload->display_errors();
+			echo '<button onclick="window.history.back();">Geri Dön</button>';
+		} else {
+			$this->load->model('sistem_model');
+			$urunBilgi = array(
+				'kategori' 		=> $this->input->post('kategori_no',true),
+				'urun_adi' 		=> $this->input->post('urun_adi',true),
+				'marka' 			=> $this->input->post('markaAdi',true),
+				'aktif' 			=> $this->input->post('aktif',true),
+				'vergi' 			=> $this->input->post('kdv',true),
+				'kampanya' 		=> $this->input->post('indirimli',true),
+				'yeni' 			=> $this->input->post('yeni',true),
+				'urun_temiz'	=> $this->sistem_model->caseDegistir('kucuk', $this->input->post('urun_adi',true))
+			);
+			
+			$fiyatBilgi = array(
+				'urun_no'			=> $urunNo,
+				'fiyat'				=> $this->input->post('fiyat',true),
+				'indirimli_fiyat'	=> $this->input->post('indFiyat',true)
+			);
+
+			$seoBilgi = array(
+				'tur'				=> 'R',
+				'obje'			=> $urunNo,
+				'sef'				=> $this->input->post('sefLink',true),
+				'title'			=> $this->input->post('title',true),
+				'description'	=> $this->input->post('description',true),
+				'keywords'		=> $this->input->post('keys',true)
+			);
+
+			$resimBilgi = array(
+				'item_no'		=> $urunNo,
+				'nesne_turu'	=> 'R',
+				'resim'			=> $yeni_dosya_adi
+			);
+
+			$this->load->view('yonetim/crop-resim', $ayar);
+		}
+	}
+
 	function urun_ekle() {
 		$dosya1 = md5(time()).md5(time()+1);
 		$dizi = explode(".", $_FILES['resim']['name']);
@@ -156,11 +221,7 @@ class Urunler extends CI_Controller {
 				'nesne_turu'	=> 'R',
 				'resim'			=> $yeni_dosya_adi
 			);
-			/*
-			Burada Ürün Kayıt işlemlerini Yapacağız.
-			Oturuma son kayıt id resim_kayit_no olarak atıp ileride kullanacağız.
-			*/
-			//$html .= form_hidden('referans_sayfa', $this->agent->referrer());
+
 			$this->load->view('yonetim/crop-resim', $ayar);
 		}
 	}
