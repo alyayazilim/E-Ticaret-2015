@@ -27,6 +27,7 @@ function sKontrol(nesne) {
 }
 
 function hCD(nesneAdi) {
+	/*var tipi = document.getElementById(nesneAdi).type;*/
 	document.getElementById(nesneAdi).style.border="1px solid #dcdcdc";
 	document.getElementById('kayitSonuc').innerHTML="Bekleniyor";
 	document.getElementById('kaydetTus').style.display="inline-block;";
@@ -320,6 +321,12 @@ function urunKaydetKontrol() {
 		mesajDivi.innerHTML="Keywords En az 3 Karakter Olmalıdır !!!";
 		keys.style.border="1px solid #F00";
 		keys.focus();
+		return false;
+	}
+	var resim			= document.getElementById('urunResim');
+	if(resim.files.length == 0) {
+		mesajDivi.innerHTML="Yüklemek İçin Ürün Resmi Seçmelisiniz !!!";
+		resim.focus();
 		return false;
 	}
 }

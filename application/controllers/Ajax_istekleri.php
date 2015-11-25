@@ -118,14 +118,14 @@ class Ajax_istekleri extends CI_Controller {
 				$html .= form_label('Ürün Adı', 'urun_adi" class="label');
 				$html .= form_input('urun_adi" id="urun_adi', '', 'onkeyup="seoOlustur(this.value); hCD(\'urun_adi\'); urunMukerrerKontrol(this.value);" autocomplete="off"');
 				$html .= form_label('Marka', 'marka" class="label');
-					$html .= '<select name="markaAdi" id="markaAdi">';
+					$html .= '<select name="markaAdi" id="markaAdi" onchange="hCD(\'markaAdi\')">';
 					$html .= '<option value="0" selected="selected">Marka Seçiniz</option>';
 					foreach($markalar AS $marka) :
 						$html .= '<option value="'.$marka->no.'">'.$marka->marka_adi.'</option>';
 					endforeach;
 					$html .= '</select>';
 					$html .= form_label('KDV Oranı', 'kdv" class="label');
-					$html .= '<select name="kdv" id="kdv">';
+					$html .= '<select name="kdv" id="kdv" onchange="hCD(\'kdv\')">';
 					$html .= '<option value="0" selected="selected">KDV Oranı Seçiniz</option>';
 					foreach($vergiler AS $vergi) :
 						$html .= '<option value="'.$vergi->no.'">'.$vergi->aciklama.'</option>';
@@ -146,14 +146,14 @@ class Ajax_istekleri extends CI_Controller {
 				$html .= form_label('Keywords', 'keys" class="label');
 				$html .= form_input('keys" id="keys', '', 'onkeyup="hCD(\'keys\');" autocomplete="off"');
 				$html .= '<br />'."\r\n";
+				$html .= form_label('Ürün Aktif ', 'aktif" class="label');
+				$html .= form_checkbox('aktif', '1', true);
+				$html .= '<br />'."\r\n";
 				$html .= form_label('Yeni Ürün ', 'yeni" class="label');
 				$html .= form_checkbox('yeni', '1', false);
 				$html .= '<br />'."\r\n";
 				$html .= form_label('İndirimli Ürün ', 'indirimli" class="label');
 				$html .= form_checkbox('indirimli', '1', false);
-				$html .= '<br />'."\r\n";
-				$html .= form_label('Ürün Aktif ', 'aktif" class="label');
-				$html .= form_checkbox('aktif', '1', false);
 			$html .= '</div>';
 			$html .= '<div class="col-md-4">';
 				$html .= '<div id="yonetimUrunResim" class="yonetimUrunResim golge">';
@@ -222,14 +222,14 @@ class Ajax_istekleri extends CI_Controller {
 					$html .= form_label('Keywords', 'keys" class="label');
 					$html .= form_input('keys" id="keys', $urun->keywords, 'onkeyup="hCD(\'keys\');" autocomplete="off"');
 					$html .= '<br />'."\r\n";
+					$html .= form_label('Ürün Aktif ', 'aktif" class="label');
+					$html .= form_checkbox('aktif', 'accept', ($urun->aktif==1 ? true : false));
+					$html .= '<br />'."\r\n";
 					$html .= form_label('Yeni Ürün ', 'yeni" class="label');
 					$html .= form_checkbox('yeni', 'accept', ($urun->yeni==1 ? true : false));
 					$html .= '<br />'."\r\n";
 					$html .= form_label('İndirimli Ürün ', 'indirimli" class="label');
 					$html .= form_checkbox('indirimli', 'accept', ($urun->kampanya==1 ? true : false));
-					$html .= '<br />'."\r\n";
-					$html .= form_label('Ürün Aktif ', 'aktif" class="label');
-					$html .= form_checkbox('aktif', 'accept', ($urun->aktif==1 ? true : false));
 				$html .= '</div>';
 				$html .= '<div class="col-md-4">';
 					$html .= '<div id="yonetimUrunResim" class="yonetimUrunResim golge">';
