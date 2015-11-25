@@ -33,12 +33,11 @@ class Ajax_istekleri extends CI_Controller {
 	}
 
 	function urunler() {
-		$a = $this->input->post('kategori_no',true);
-		//var_dump($_POST);
-		$kategoriNo			= $this->input->post('alt_kategori_no',true); 
+		$kategoriNo 	= $this->input->post('kategori_no',true);
+		$altKategoriNo	= $this->input->post('alt_kategori_no',true); 
 		$this->load->model('urun_model');
-		$urunler = $this->urun_model->ajaxUrunGetir($kategoriNo);
-		$cevap = '<div id="altKategoriEkle"><a href="javascript:;" bilgi="'.$a.', '.$kategoriNo.'" onclick="urunEkle('.$kategoriNo.'); linkSec(this);" title="Ürün Ekle"><img src="'.base_url().'resimler/ekle.png"></a></div>';
+		$urunler = $this->urun_model->ajaxUrunGetir($altKategoriNo);
+		$cevap = '<div id="altKategoriEkle"><a href="javascript:;" bilgi="'.$kategoriNo.', '.$altKategoriNo.'" onclick="urunEkle('.$altKategoriNo.'); linkSec(this);" title="Ürün Ekle"><img src="'.base_url().'resimler/ekle.png"></a></div>';
 		foreach($urunler AS $urun) :
 			$cevap .= '<li><a href="javascript:;" bilgi="'.$urun->kategori.', '.$urun->no.'" onclick="yonetimUrunDetay('.$urun->kategori.', '.$urun->no.', \'yonetimUrunDetay\'); linkSec(this);">'.$urun->urun_adi.'</a></li>';
 		endforeach;
@@ -147,13 +146,13 @@ class Ajax_istekleri extends CI_Controller {
 				$html .= form_input('keys" id="keys', '', 'onkeyup="hCD(\'keys\');" autocomplete="off"');
 				$html .= '<br />'."\r\n";
 				$html .= form_label('Yeni Ürün ', 'yeni" class="label');
-				$html .= form_checkbox('yeni', 'accept', false);
+				$html .= form_checkbox('yeni', '1', false);
 				$html .= '<br />'."\r\n";
 				$html .= form_label('İndirimli Ürün ', 'indirimli" class="label');
-				$html .= form_checkbox('indirimli', 'accept', false);
+				$html .= form_checkbox('indirimli', '1', false);
 				$html .= '<br />'."\r\n";
 				$html .= form_label('Ürün Aktif ', 'aktif" class="label');
-				$html .= form_checkbox('aktif', 'accept', false);
+				$html .= form_checkbox('aktif', '1', false);
 			$html .= '</div>';
 			$html .= '<div class="col-md-4">';
 				$html .= '<div id="yonetimUrunResim" class="yonetimUrunResim golge">';
@@ -198,7 +197,7 @@ class Ajax_istekleri extends CI_Controller {
 						'3'	=> 'HP',
 						'4'	=> 'Canon',
 					);
-					$html .= form_dropdown('markaAdi', $markalar, 0);
+					$html .= form_dropdown('markaAdi', $markalar, $urun->marka_no);
 					$html .= form_label('KDV Oranı', 'kdv" class="label');
 					$kdv = array(
 						'0'	=> 'Oran Seçiniz',
@@ -206,7 +205,7 @@ class Ajax_istekleri extends CI_Controller {
 						'2'	=> '% 15 KDV',
 						'3'	=> '% 18 KDV'
 					);
-					$html .= form_dropdown('kdv', $kdv, 0);
+					$html .= form_dropdown('kdv', $kdv, $urun->vergi);
 					$html .= form_label('Fiyatı', 'fiyat" class="label');
 					$html .= form_input('fiyat" id="fiyat', $urun->fiyat, 'onkeyup="hCD(\'fiyat\'); sKontrol(this)" autocomplete="off"');
 					$html .= form_label('İndirimli Fiyatı', 'indFiyat" class="label');

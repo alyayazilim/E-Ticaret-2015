@@ -874,6 +874,7 @@ div#yonetimUrunDetay {
 .kategoriEkleForm>.col-md-12,
 .urunEkleForm>.col-md-12 {
 	text-align: center;
+	margin-top: 25px;
 }
 .kategoriEkleForm .col-md-4,
 .urunEkleForm .col-md-4 {

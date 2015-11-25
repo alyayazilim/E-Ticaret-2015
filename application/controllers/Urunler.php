@@ -174,7 +174,7 @@ class Urunler extends CI_Controller {
 				'max_size'			=> '2048',
 				'max_width'			=> '800',
 				'max_height'		=> '800',
-				'create_thumb'		=> TRUE,
+				'create_thumb'		=> FALSE,
 				'maintain_ratio' 	=> TRUE,
 				'width'				=> '400',
 				'height'				=> '400',
@@ -201,7 +201,7 @@ class Urunler extends CI_Controller {
 				'urun_temiz'	=> $this->sistem_model->caseDegistir('kucuk', $this->input->post('urun_adi',true))
 			);
 			$this->load->model('urun_model');
-			$urunNo = $this->urun_model->urunKaydet($urunBilgi);
+			$urunNo = $this->urun_model->urun_kaydet($urunBilgi);
 
 			$fiyatBilgi = array(
 				'urun_no'			=> $urunNo,
@@ -215,7 +215,7 @@ class Urunler extends CI_Controller {
 				'obje'			=> $urunNo,
 				'sef'				=> $this->input->post('sefLink',true),
 				'title'			=> $this->input->post('title',true),
-				'keywords'		=> $this->input->post('keys',true)
+				'keywords'		=> $this->input->post('keys',true),
 				'description'	=> $this->input->post('description',true),
 			);
 			$this->load->model('seo_model');
