@@ -77,6 +77,11 @@ class Urun_model extends CI_Model {
 		return true;
 	}
 
+	function vergiListesi() {
+		$sorgu = $this->mySunucu->query('SELECT no, aciklama FROM vergi_oranlari');
+		return $sorgu->result();
+	}
+
 }
 
 /* Urun_model.php Dosyasının Sonu */
