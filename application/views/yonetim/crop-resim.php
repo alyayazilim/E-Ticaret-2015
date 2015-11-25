@@ -35,7 +35,7 @@
 
 	function checkCoords() {
 		if(parseInt($('#w').val())) return true;
-			alert('Gçndermek için resmin gerekli alanını seçmeniz gerekmektedir.');
+			alert('Göndermek için resmin gerekli alanını seçmeniz gerekmektedir.');
 		return false;
 	}
 
