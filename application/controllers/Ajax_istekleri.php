@@ -110,26 +110,27 @@ class Ajax_istekleri extends CI_Controller {
 			'onsubmit'	=>	'deneme(this);'*/
 		);
 		$html = form_open_multipart('urunler/urun_ekle', $ozellikler);
+			$this->load->model('urun_model');
+			$this->load->model('marka_model');
+			$markalar	= $this->marka_model->markaListesi();
+			$vergiler	= $this->urun_model->vergiListesi();
 			$html .= '<div class="col-md-4">';
 				$html .= form_label('Ürün Adı', 'urun_adi" class="label');
 				$html .= form_input('urun_adi" id="urun_adi', '', 'onkeyup="seoOlustur(this.value); hCD(\'urun_adi\'); urunMukerrerKontrol(this.value);" autocomplete="off"');
 				$html .= form_label('Marka', 'marka" class="label');
-				$markalar = array(
-					'0'	=> 'Marka Seçiniz',
-					'1'	=> 'Epson',
-					'2'	=> 'Lexmark',
-					'3'	=> 'HP',
-					'4'	=> 'Canon',
-				);
-				$html .= form_dropdown('markaAdi', $markalar, 0);
-				$html .= form_label('KDV Oranı', 'kdv" class="label');
-				$kdv = array(
-					'0'	=> 'Oran Seçiniz',
-					'1'	=> '% 0 KDV',
-					'2'	=> '% 15 KDV',
-					'3'	=> '% 18 KDV'
-				);
-				$html .= form_dropdown('kdv', $kdv, 0);
+					$html .= '<select name="markaAdi" id="markaAdi">';
+					$html .= '<option value="0" selected="selected">Marka Seçiniz</option>';
+					foreach($markalar AS $marka) :
+						$html .= '<option value="'.$marka->no.'">'.$marka->marka_adi.'</option>';
+					endforeach;
+					$html .= '</select>';
+					$html .= form_label('KDV Oranı', 'kdv" class="label');
+					$html .= '<select name="kdv" id="kdv">';
+					$html .= '<option value="0" selected="selected">KDV Oranı Seçiniz</option>';
+					foreach($vergiler AS $vergi) :
+						$html .= '<option value="'.$vergi->no.'">'.$vergi->aciklama.'</option>';
+					endforeach;
+					$html .= '</select>';
 				$html .= form_label('Fiyatı', 'fiyat" class="label');
 				$html .= form_input('fiyat" id="fiyat', '', 'onkeyup="hCD(\'fiyat\'); sKontrol(this)" autocomplete="off"');
 				$html .= form_label('İndirimli Fiyatı', 'indFiyat" class="label');
@@ -161,7 +162,7 @@ class Ajax_istekleri extends CI_Controller {
 			$html .= '</div>';
 			$html .= '<div style="clear: both;"></div>';
 			$html .= '<div class="col-md-12">';
-				$html .= form_submit('kaydet" id="kaydetTus" onclick="return kategoriKaydetKontrol();', 'Kaydet');
+				$html .= form_submit('kaydet" id="kaydetTus" onclick="return urunKaydetKontrol();', 'Kaydet');
 				$html .= form_hidden('kategori_no', $ustKategori);
 				$html .= '<div id="kayitSonuc">
 					<img id="kaydediliyor" src="'.base_url().'resimler/loading.gif" />
@@ -201,7 +202,7 @@ class Ajax_istekleri extends CI_Controller {
 					$html .= '</select>';
 					$html .= form_label('KDV Oranı', 'kdv" class="label');
 					$html .= '<select name="kdv">';
-					$html .= '<option value="0" selected="selected">KDV Seçiniz</option>';
+					$html .= '<option value="0" selected="selected">KDV Oranı Seçiniz</option>';
 					foreach($vergiler AS $vergi) :
 						$html .= '<option value="'.$vergi->no.'" '.($urun->vergi == $vergi->no ? ' selected="selected"' : '').'>'.$vergi->aciklama.'</option>';
 					endforeach;
@@ -241,7 +242,7 @@ class Ajax_istekleri extends CI_Controller {
 				$html .= '</div>';
 				$html .= '<div style="clear: both;"></div>';
 				$html .= '<div class="col-md-12">';
-					$html .= form_submit('kaydet" id="kaydetTus" onclick="return kategoriKaydetKontrol();', 'Kaydet');
+					$html .= form_submit('kaydet" id="kaydetTus" onclick="return urunKaydetKontrol();', 'Kaydet');
 					$html .= form_hidden('kategori_no', $ustKategori);
 					$html .= '<div id="kayitSonuc">
 						<img id="kaydediliyor" src="'.base_url().'resimler/loading.gif" />

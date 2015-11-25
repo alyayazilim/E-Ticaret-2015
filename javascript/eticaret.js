@@ -247,10 +247,79 @@ function kategoriKaydetKontrol() {
 		keys.focus();
 		return false;
 	}
-	var resim = document.getElementById('resim');
-	console.log(resim.value());
-	if(resim.value()=="") {
-		alert('Resim Seçmelisiniz.');
+}
+
+function urunKaydetKontrol() {
+	var mesajDivi		= document.getElementById('kayitSonuc');
+	mesajDivi.style.display="inline-block";
+	var urunAdi			= document.getElementById('urun_adi');
+	var tUrunAdi			= urunAdi.value.trim();
+	if(tUrunAdi.length < 3) {
+		mesajDivi.innerHTML="Ürün Adı En az 3 Karakter Olmalıdır !!!";
+		urunAdi.style.border="1px solid #F00";
+		urunAdi.focus();
+		return false;
+	}
+	var marka	= document.getElementById('markaAdi');
+	if(marka.value == 0) {
+		mesajDivi.innerHTML="Marka Seçmelisiniz !!!";
+		marka.style.border="1px solid #F00";
+		marka.focus();
+		return false;
+	}
+	var kdv	= document.getElementById('kdv');
+	if(kdv.value == 0) {
+		mesajDivi.innerHTML="KDV Oranı Seçmelisiniz !!!";
+		kdv.style.border="1px solid #F00";
+		kdv.focus();
+		return false;
+	}
+	var fiyat			= document.getElementById('fiyat');
+	var tFiyat			= fiyat.value.trim();
+	if(tFiyat.length < 3) {
+		mesajDivi.innerHTML="Fiyat En Az 2 Karakter Olmalıdır !!!";
+		fiyat.style.border="1px solid #F00";
+		fiyat.focus();
+		return false;
+	}
+	var indFiyat			= document.getElementById('indFiyat');
+	var tIndFiyat			= indFiyat.value.trim();
+	if(tIndFiyat.length < 3) {
+		mesajDivi.innerHTML="İndirimli Fiyat En Az 2 Karakter Olmalıdır !!!";
+		indFiyat.style.border="1px solid #F00";
+		indFiyat.focus();
+		return false;
+	}
+	var sefLink			= document.getElementById('sefLink');
+	var tSefLink		= sefLink.value.trim();
+	if(tSefLink.length < 3) {
+		mesajDivi.innerHTML="Seflink En az 3 Karakter Olmalıdır !!!";
+		sefLink.style.border="1px solid #F00";
+		sefLink.focus();
+		return false;
+	}
+	var title			= document.getElementById('title');
+	var tTitle			= title.value.trim();
+	if(tTitle.length < 3) {
+		mesajDivi.innerHTML="Title En az 3 Karakter Olmalıdır !!!";
+		title.style.border="1px solid #F00";
+		title.focus();
+		return false;
+	}
+	var description	= document.getElementById('description');
+	var tDescription	= description.value.trim();
+	if(tDescription.length < 3) {
+		mesajDivi.innerHTML="Description En az 3 Karakter Olmalıdır !!!";
+		description.style.border="1px solid #F00";
+		description.focus();
+		return false;
+	}
+	var keys				= document.getElementById('keys');
+	var tKeys			= keys.value.trim();
+	if(tKeys.length < 3) {
+		mesajDivi.innerHTML="Keywords En az 3 Karakter Olmalıdır !!!";
+		keys.style.border="1px solid #F00";
+		keys.focus();
 		return false;
 	}
 }
@@ -268,7 +337,6 @@ function dosyaBoyutu(nesneId) {
 	if(boyut >= 3072) {
 		alert("Dosya Boyutu EN FAZLA 3 MB OLMALIDIR!!!")+boyut;
 		document.getElementById(nesneId).value="";
-
 	}
 }
 
