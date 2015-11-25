@@ -33,12 +33,14 @@ class Ajax_istekleri extends CI_Controller {
 	}
 
 	function urunler() {
+		$a = $this->input->post('kategori_no',true);
+		//var_dump($_POST);
 		$kategoriNo			= $this->input->post('alt_kategori_no',true); 
 		$this->load->model('urun_model');
 		$urunler = $this->urun_model->ajaxUrunGetir($kategoriNo);
-		$cevap = '<div id="altKategoriEkle"><a href="javascript:;" onclick="urunEkle('.$kategoriNo.'); linkSec(this);" title="Ürün Ekle"><img src="'.base_url().'resimler/ekle.png"></a></div>';
+		$cevap = '<div id="altKategoriEkle"><a href="javascript:;" bilgi="'.$a.', '.$kategoriNo.'" onclick="urunEkle('.$kategoriNo.'); linkSec(this);" title="Ürün Ekle"><img src="'.base_url().'resimler/ekle.png"></a></div>';
 		foreach($urunler AS $urun) :
-			$cevap .= '<li><a href="javascript:;" onclick="yonetimUrunDetay('.$urun->kategori.', '.$urun->no.', \'yonetimUrunDetay\'); linkSec(this);">'.$urun->urun_adi.'</a></li>';
+			$cevap .= '<li><a href="javascript:;" bilgi="'.$urun->kategori.', '.$urun->no.'" onclick="yonetimUrunDetay('.$urun->kategori.', '.$urun->no.', \'yonetimUrunDetay\'); linkSec(this);">'.$urun->urun_adi.'</a></li>';
 		endforeach;
 		echo $cevap;
 	}

@@ -67,6 +67,16 @@ class Urun_model extends CI_Model {
 		return $sorgu->num_rows();
 	}
 
+	function urun_kaydet($urunBilgi) {
+		$this->mySunucu->INSERT('urunler', $urunBilgi);
+		return $this->mySunucu->insert_id();
+	}
+
+	function urun_fiyat_kaydet($fiyatBilgi) {
+		$this->mySunucu->INSERT('urun_fiyat', $fiyatBilgi);
+		return true;
+	}
+
 }
 
 /* Urun_model.php Dosyasının Sonu */

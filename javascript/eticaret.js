@@ -247,6 +247,12 @@ function kategoriKaydetKontrol() {
 		keys.focus();
 		return false;
 	}
+	var resim = document.getElementById('resim');
+	console.log(resim.value());
+	if(resim.value()=="") {
+		alert('Resim Seçmelisiniz.');
+		return false;
+	}
 }
 
 function dosyaBoyutu(nesneId) {

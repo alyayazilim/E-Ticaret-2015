@@ -51,9 +51,9 @@
 			<!-- yonetimUrunler -->
 				<div id="yonetimUrunler" class="yonetimUrunler col-md-4 golge">';
 					if(isset($urunler)) {
-						$cevap = '<div id="altKategoriEkle"><a href="javascript:;" onclick="urunEkle('.$this->uri->segment(4).'); linkSec(this);" title="Ürün Ekle"><img src="'.base_url().'resimler/ekle.png"></a></div>';
+						$cevap = '<div id="altKategoriEkle"><a href="javascript:;" bilgi="'.$this->uri->segment(4).'" onclick="urunEkle('.$this->uri->segment(4).'); linkSec(this);" title="Ürün Ekle"><img src="'.base_url().'resimler/ekle.png"></a></div>';
 						foreach($urunler AS $urun) :
-							$cevap .= '<li'.($this->uri->segment(5)==$urun->no ? ' class="aktif"' : '' ).'><a href="javascript:;" onclick="yonetimUrunDetay('.$urun->kategori.', '.$urun->no.', \'yonetimUrunDetay\'); linkSec(this);">'.$urun->urun_adi.'</a></li>';
+							$cevap .= '<li'.($this->uri->segment(5)==$urun->no ? ' class="aktif"' : '' ).'><a href="javascript:;" bilgi="'.$urun->kategori.', '.$urun->no.'" onclick="yonetimUrunDetay('.$urun->kategori.', '.$urun->no.', \'yonetimUrunDetay\'); linkSec(this);">'.$urun->urun_adi.'</a></li>';
 						endforeach;
 						echo $cevap;
 					}

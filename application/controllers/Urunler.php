@@ -200,27 +200,34 @@ class Urunler extends CI_Controller {
 				'yeni' 			=> $this->input->post('yeni',true),
 				'urun_temiz'	=> $this->sistem_model->caseDegistir('kucuk', $this->input->post('urun_adi',true))
 			);
-			
+			$this->load->model('urun_model');
+			$urunNo = $this->urun_model->urunKaydet($urunBilgi);
+
 			$fiyatBilgi = array(
 				'urun_no'			=> $urunNo,
 				'fiyat'				=> $this->input->post('fiyat',true),
 				'indirimli_fiyat'	=> $this->input->post('indFiyat',true)
 			);
+			$this->urun_model->urun_fiyat_kaydet($fiyatBilgi);
 
 			$seoBilgi = array(
 				'tur'				=> 'R',
 				'obje'			=> $urunNo,
 				'sef'				=> $this->input->post('sefLink',true),
 				'title'			=> $this->input->post('title',true),
-				'description'	=> $this->input->post('description',true),
 				'keywords'		=> $this->input->post('keys',true)
+				'description'	=> $this->input->post('description',true),
 			);
+			$this->load->model('seo_model');
+			$this->seo_model->seo_kaydet($seoBilgi);
 
 			$resimBilgi = array(
 				'item_no'		=> $urunNo,
 				'nesne_turu'	=> 'R',
 				'resim'			=> $yeni_dosya_adi
 			);
+			$this->load->model('resim_model');
+			$this->resim_model->resim_kaydet($resimBilgi);
 
 			$this->load->view('yonetim/crop-resim', $ayar);
 		}
